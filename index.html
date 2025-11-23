@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RwaAgriNotify | Smart Farming Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-seedling"></i>
+                <h1>RwaAgriNotify</h1>
+            </div>
+            <p class="tagline">Smart decisions for Rwandan seasons.</p>
+        </header>
+
+        <main>
+            <!-- Location Selector -->
+            <section class="location-control">
+                <label for="district-select"><i class="fa-solid fa-location-dot"></i> Select District</label>
+                <select id="district-select">
+                    <option value="" disabled selected>Choose your location...</option>
+                    <!-- Populated by JS -->
+                </select>
+            </section>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard">
+                <!-- Card 1: Current Weather -->
+                <div class="card weather-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-cloud-sun"></i> Current Weather</h2>
+                    </div>
+                    <div class="weather-display" id="weather-display">
+                        <div class="loader">Loading...</div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Agricultural Season -->
+                <div class="card season-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-calendar-day"></i> Agri-Season</h2>
+                    </div>
+                    <div class="season-display" id="season-display">
+                        <div class="loader">Calculating...</div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Alerts -->
+                <div class="card alert-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-triangle-exclamation"></i> Risks & Alerts</h2>
+                    </div>
+                    <div class="alert-list" id="alert-list">
+                        <p class="placeholder-text">Select a location to see risks.</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Recommendations -->
+                <div class="card recommendation-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-list-check"></i> Crop Advice</h2>
+                    </div>
+                    <div class="crop-list" id="crop-list">
+                        <p class="placeholder-text">Select a location to get advice.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>RwaAgriNotify v2.0 | Data provided by Open-Meteo</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
