@@ -10,8 +10,7 @@ A smart agricultural decision-support system for Rwandan farmers. This applicati
 - **Server configs:** Load balance handles request made on www.kuradusenge.tech forwards them btn web-01 and web-02
 
 ## Quick links 
- -[Agricultural Insights: Cultivating the Right Crops depending on season the Season - Vimeo](https://www.loom.com/share/63a1c5003b5d4535ae7236b094a05beb)
-
+ - [DEMO: Agricultural Insights: Cultivating the Right Crops depending on season the Season - Vimeo](https://www.loom.com/share/63a1c5003b5d4535ae7236b094a05beb)
  - [Kuradusenge.tech]
 ## Part 1: Local Implementation
 
