@@ -60,6 +60,7 @@ header {
     font-size: 2.5rem;
     font-weight: 700;
     background: linear-gradient(to right, #2ecc71, #f1c40f);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -225,6 +226,21 @@ footer {
     margin-top: 50px;
     opacity: 0.6;
     font-size: 0.8rem;
+}
+
+/* Map Styles */
+.map-section {
+    margin-bottom: 30px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--glass-border);
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+    z-index: 1;
 }
 
 /* Responsive */

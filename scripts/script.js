@@ -28,7 +28,10 @@ const CROP_DATA = [
 let currentState = {
     location: null,
     weather: null,
-    season: null
+    season: null,
+    map: null,
+    marker: null,
+    geoJsonLayer: null
 };
 
 // --- Core Logic: The Agri-Decision Engine ---
@@ -150,6 +153,44 @@ function init() {
 
     // Event Listener
     select.addEventListener('change', handleLocationChange);
+
+    // Initialize Map
+    initMap();
+}
+
+function initMap() {
+    // Center on Rwanda
+    currentState.map = L.map('map').setView([-1.9403, 29.8739], 9); 
+
+    // Use CartoDB Voyager tiles (Faster & Cleaner)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
+    }).addTo(currentState.map);
+
+    // Fix for map rendering issues
+    setTimeout(() => {
+        currentState.map.invalidateSize();
+    }, 100);
+
+    // Load Rwanda Districts GeoJSON
+    fetch('./data/districts.geojson')
+        .then(response => response.json())
+        .then(data => {
+            currentState.geoJsonLayer = L.geoJSON(data, {
+                style: {
+                    color: '#3388ff',      // Default border color
+                    weight: 1,
+                    opacity: 0.5,
+                    fillOpacity: 0.1
+                },
+                onEachFeature: function(feature, layer) {
+                    layer.bindPopup(feature.properties.name);
+                }
+            }).addTo(currentState.map);
+        })
+        .catch(err => console.error("Error loading GeoJSON:", err));
 }
 
 async function handleLocationChange(e) {
@@ -171,6 +212,56 @@ async function handleLocationChange(e) {
 
     // 3. Update UI
     updateDashboard(season, weather, districtData.region);
+    
+    // 4. Update Map
+    updateMap(districtData);
+}
+
+function updateMap(location) {
+    const { lat, lon } = location;
+    const map = currentState.map;
+    
+    // Ensure map is correctly sized before flying
+    map.invalidateSize();
+
+    // Fly to location
+    map.flyTo([lat, lon], 13, {
+        animate: true,
+        duration: 1.5
+    });
+
+    // Update Marker
+    if (currentState.marker) {
+        map.removeLayer(currentState.marker);
+    }
+
+    currentState.marker = L.circleMarker([lat, lon], {
+        color: '#0d8a47',
+        fillColor: '#0d8a47',
+        fillOpacity: 0.8,
+        radius: 12
+    }).addTo(map)
+        .bindPopup(`<b>${document.getElementById('district-select').value}</b><br>${location.region} Region`)
+        .openPopup();
+
+    // Highlight District Boundary
+    if (currentState.geoJsonLayer) {
+        currentState.geoJsonLayer.eachLayer(layer => {
+            // Reset style
+            currentState.geoJsonLayer.resetStyle(layer);
+            
+            // Check if this is the selected district
+            if (layer.feature.properties.name === document.getElementById('district-select').value) {
+                layer.setStyle({
+                    color: '#0d8a47',       // Green Border
+                    weight: 3,
+                    fillColor: '#0d8a47',
+                    fillOpacity: 0.3
+                });
+                map.fitBounds(layer.getBounds());
+            }
+        });
+    }
 }
 
 function updateDashboard(season, weather, region) {

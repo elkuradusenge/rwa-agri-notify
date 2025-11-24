@@ -7,7 +7,12 @@ A smart agricultural decision-support system for Rwandan farmers. This applicati
 - **Smart Season Logic:** Automatically detects the current agricultural season (Season A, B, or C).
 - **Agri-Decision Engine:** Analyzes weather risks (Heat, Heavy Rain, Humidity) and filters crop recommendations accordingly.
 - **Premium UI:** Glassmorphism design with responsive layout.
+- **Server configs:** Load balance handles request made on www.kuradusenge.tech forwards them btn web-01 and web-02
 
+## Quick links 
+ -[Agricultural Insights: Cultivating the Right Crops depending on season the Season - Vimeo](https://www.loom.com/share/63a1c5003b5d4535ae7236b094a05beb)
+
+ - [Kuradusenge.tech]
 ## Part 1: Local Implementation
 
 ### Prerequisites
@@ -16,7 +21,7 @@ A smart agricultural decision-support system for Rwandan farmers. This applicati
 
 ### How to Run
 1. Clone this repository.
-2. Navigate to the project folder: `rwa-agri-notify-v2`.
+2. Navigate to the project folder: `rwa-agri-notify`.
 3. Open `index.html` in your browser.
    - Or use a local server like Live Server for VS Code.
 
@@ -33,33 +38,26 @@ A smart agricultural decision-support system for Rwandan farmers. This applicati
 4. Clone the repository to `/var/www/html/`:
    ```bash
    cd /var/www/html/
-   sudo git clone <YOUR_REPO_URL> .
+   sudo git clone https://github.com/elkuradusenge/rwa-agri-notify.git .
    ```
-5. Ensure Nginx is running: `sudo systemctl restart nginx`
+5. Ensure Nginx is running: `sudo service nginx restart`
 
-### Step 2: Configure Load Balancer (Lb01)
-1. SSH into the Load Balancer.
-2. Install HAProxy: `sudo apt install haproxy -y`
-3. Edit configuration: `sudo nano /etc/haproxy/haproxy.cfg`
-4. Add the backend configuration:
-   ```haproxy
-   frontend http_front
-      bind *:80
-      default_backend web_servers
 
-   backend web_servers
-      balance roundrobin
-      server web01 <WEB01_IP>:80 check
-      server web02 <WEB02_IP>:80 check
-   ```
-5. Restart HAProxy: `sudo systemctl restart haproxy`
-
-## APIs Used
-- **Open-Meteo API:** Used for fetching real-time weather and forecasts. No API key required.
+## APIs & Data Sources Used
+- **Open-Meteo API:** Used for fetching real-time weather and forecasts.
   - Docs: [https://open-meteo.com/](https://open-meteo.com/)
+- **OpenStreetMap:** Map tiles provided by OpenStreetMap contributors.
+  - Website: [https://www.openstreetmap.org/](https://www.openstreetmap.org/)
+- **Leaflet.js:** Open-source JavaScript library for mobile-friendly interactive maps.
+  - Docs: [https://leafletjs.com/](https://leafletjs.com/)
+- **CartoDB:** High-performance map tiles.
+  - Website: [https://carto.com/](https://carto.com/)
+- **Rwanda GeoJSON:** Country boundary data.
+  - Source: [https://github.com/johan/world.geo.json](https://github.com/johan/world.geo.json)
 
 ## Credits
-- Developed by [Your Name]
+- Developed by Elie Kuradusenge
 - Weather Data by Open-Meteo
+- Map Data by OpenStreetMap
 - Icons by FontAwesome
 - Fonts by Google Fonts (Outfit)
